@@ -72,7 +72,9 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
       return [...state]
     }
     case 'SET-TODOS': {
-      return action.todolists.map((tl) => {return {...tl, filter: 'all'}})
+      return action.todolists.map((tl) => {
+        return {...tl, filter: 'all'}
+      })
     }
     default:
       return state;
@@ -100,7 +102,28 @@ export const setTodosAC = (todolists: TodolistType[]): SetTodosActionType => {
 export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
   todolistsAPI.getTodolists()
     .then((res) => {
-    let todos = res.data
-    dispatch(setTodosAC(todos))
-  })
+      let todos = res.data
+      dispatch(setTodosAC(todos))
+    })
+}
+
+export const deleteTodolistsTC = (todolistId: string) => (dispatch: Dispatch) => {
+  todolistsAPI.deleteTodolist(todolistId)
+    .then((res) => {
+      dispatch(removeTodolistAC(todolistId))
+    })
+}
+
+export const addTodolistsTC = (title: string) => (dispatch: Dispatch) => {
+  todolistsAPI.createTodolist(title)
+    .then((res) => {
+      dispatch(addTodolistAC(title))
+    })
+}
+
+export const updateTodolistTitleTC = (id: string, title: string) => (dispatch: Dispatch) => {
+  todolistsAPI.updateTodolist(id, title)
+    .then((res) => {
+      dispatch(changeTodolistTitleAC(id, title))
+    })
 }
