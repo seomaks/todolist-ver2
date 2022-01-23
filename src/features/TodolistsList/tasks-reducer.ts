@@ -13,7 +13,6 @@ import {
 import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
 import {
-  RequestStatusType,
   SetAppErrorActionType,
   setAppStatusAC,
   SetAppStatusActionType
@@ -84,6 +83,9 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsT
       dispatch(action)
       dispatch(setAppStatusAC('succeeded'))
     })
+    .catch((err: AxiosError) => {
+      handleServerNetworkError(dispatch, err.message)
+    })
 }
 export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
   dispatch(setAppStatusAC('loading'))
@@ -92,6 +94,9 @@ export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: D
       const action = removeTaskAC(taskId, todolistId)
       dispatch(action)
       dispatch(setAppStatusAC('succeeded'))
+    })
+    .catch((err: AxiosError) => {
+      handleServerNetworkError(dispatch, err.message)
     })
 }
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -103,12 +108,6 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
         dispatch(setAppStatusAC('succeeded'))
       } else {
         handleServerAppError(dispatch, res.data)
-        // if (res.data.messages.length) {
-        //   dispatch(setAppErrorAC(res.data.messages[0]))
-        // } else {
-        //   dispatch(setAppErrorAC('Some error occurred'))
-        // }
-        // dispatch(setAppStatusAC('failed'))
       }
     })
     .catch((err: AxiosError) => {
@@ -142,6 +141,9 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
         const action = updateTaskAC(taskId, domainModel, todolistId)
         dispatch(action)
         dispatch(setAppStatusAC('succeeded'))
+      })
+      .catch((err: AxiosError) => {
+        handleServerNetworkError(dispatch, err.message)
       })
   }
 
