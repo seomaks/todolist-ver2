@@ -187,4 +187,4 @@ type ActionsType =
   | ReturnType<typeof setTasksAC>
   | SetAppStatusActionType
   | SetAppErrorActionType
-| ReturnType<typeof changeTaskEntityStatusAC>
+  | ReturnType<typeof changeTaskEntityStatusAC>
