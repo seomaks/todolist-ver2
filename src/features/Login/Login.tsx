@@ -8,8 +8,15 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {useDispatch, useSelector} from "react-redux";
+import {loginTC} from "./auth-reducer";
+import {AppRootStateType} from "../../app/store";
+import {LoginParamsType} from "../../api/todolists-api";
+import {Navigate} from 'react-router-dom';
 
 export const Login = () => {
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+  const dispatch = useDispatch()
 
   const formik = useFormik({
     initialValues: {
@@ -18,7 +25,7 @@ export const Login = () => {
       rememberMe: false
     },
     validate: (values) => {
-      const errors: FormikErrorType = {};
+      const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
       if (!values.email) {
         errors.email = 'Required';
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -31,10 +38,14 @@ export const Login = () => {
       return errors;
     },
     onSubmit: values => {
-      alert(JSON.stringify(values));
+      dispatch(loginTC(values))
       formik.resetForm()
     },
   })
+
+  if (isLoggedIn) {
+    return <Navigate to="/"/>
+  }
 
   return <Grid container justifyContent={'center'}>
     <Grid item justifyContent={'center'}>
@@ -87,8 +98,8 @@ export const Login = () => {
 }
 
 //types
-type FormikErrorType = {
-  email?: string
-  password?: string
-  rememberMe?: boolean
-}
+// type FormikErrorType = {
+//   email?: string
+//   password?: string
+//   rememberMe?: boolean
+// }
