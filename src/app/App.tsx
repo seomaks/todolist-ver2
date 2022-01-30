@@ -30,7 +30,7 @@ function App() {
 
   useEffect(() => {
     dispatch(initializeAppTC())
-  })
+  }, [])
 
   const logoutHandler = () => {
     dispatch(logoutTC())
@@ -58,8 +58,7 @@ function App() {
           <Typography variant="h6">
             News
           </Typography>
-          {isLoggedIn &&
-            <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+          {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
         </Toolbar>
         {status === 'loading' && <LinearProgress/>}
       </AppBar>

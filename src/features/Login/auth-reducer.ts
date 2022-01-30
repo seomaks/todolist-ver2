@@ -30,6 +30,7 @@ export const setIsLoggedInAC = (value: boolean) =>
 
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
+  debugger
   dispatch(setAppStatusAC('loading'))
   authAPI.login(data)
     .then(res => {

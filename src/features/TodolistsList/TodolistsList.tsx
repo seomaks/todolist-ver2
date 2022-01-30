@@ -32,7 +32,7 @@ export const TodolistsList: React.FC = () => {
 
   useEffect(() => {
       if (!isLoggedIn) {
-          return
+          return;
       }
     const thunk = fetchTodolistsTC()
     dispatch(thunk)
@@ -79,7 +79,7 @@ export const TodolistsList: React.FC = () => {
   }, [dispatch])
 
     if (!isLoggedIn) {
-        return <Navigate to="login"/>
+        return <Navigate to={"login"}/>
     }
 
   return <>

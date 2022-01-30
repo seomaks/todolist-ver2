@@ -15,8 +15,8 @@ import {LoginParamsType} from "../../api/todolists-api";
 import {Navigate} from 'react-router-dom';
 
 export const Login = () => {
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +44,7 @@ export const Login = () => {
   })
 
   if (isLoggedIn) {
-    return <Navigate to="/"/>
+    return <Navigate to={"/"}/>
   }
 
   return <Grid container justifyContent={'center'}>
@@ -96,10 +96,3 @@ export const Login = () => {
     </Grid>
   </Grid>
 }
-
-//types
-// type FormikErrorType = {
-//   email?: string
-//   password?: string
-//   rememberMe?: boolean
-// }
