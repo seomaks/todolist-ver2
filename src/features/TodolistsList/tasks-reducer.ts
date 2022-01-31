@@ -1,5 +1,5 @@
 import {
-  AddTodolistActionType,
+  AddTodolistActionType, ClearDataActionType,
   RemoveTodolistActionType,
   SetTodolistsActionType
 } from './todolists-reducer'
@@ -49,7 +49,10 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       return {
         ...state,
         [action.todolistId]: state[action.todolistId]
-          .map(t => t.id === action.taskId ? {...t, entityStatus: action.entityStatus} : t)
+          .map(t => t.id === action.taskId ? {
+            ...t,
+            entityStatus: action.entityStatus
+          } : t)
       }
 
     case 'ADD-TODOLIST':
@@ -67,6 +70,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
     case 'SET-TASKS':
       return {...state, [action.todolistId]: action.tasks}
+    case "CLEAR-DATA":
+      return {}
     default:
       return state
   }
@@ -188,3 +193,4 @@ type ActionsType =
   | SetAppStatusActionType
   | SetAppErrorActionType
   | ReturnType<typeof changeTaskEntityStatusAC>
+  | ClearDataActionType

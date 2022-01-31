@@ -10,6 +10,10 @@ import {
   handleServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
+import {
+  ClearDataActionType,
+  clearTodosDataAC
+} from "../TodolistsList/todolists-reducer";
 
 const initialState = {
   isLoggedIn: false
@@ -53,6 +57,7 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
       if (res.data.resultCode === 0) {
         dispatch(setIsLoggedInAC(false))
         dispatch(setAppStatusAC('succeeded'))
+        dispatch(clearTodosDataAC())
       } else {
         handleServerAppError(dispatch, res.data)
       }
@@ -67,3 +72,4 @@ type ActionsType =
   ReturnType<typeof setIsLoggedInAC>
   | SetAppStatusActionType
   | SetAppErrorActionType
+  | ClearDataActionType

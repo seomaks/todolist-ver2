@@ -11,6 +11,9 @@ import {
   handleServerAppError,
   handleServerNetworkError
 } from "../../utils/error-utils";
+import {
+  fetchTasksTC
+} from "./tasks-reducer";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -45,6 +48,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
         ...tl,
         entityStatus: action.entityStatus
       } : tl)
+    case "CLEAR-DATA":
+      return []
     default:
       return state
   }
@@ -78,15 +83,22 @@ export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestSt
   id,
   entityStatus
 } as const)
+export const clearTodosDataAC = () => ({type: 'CLEAR-DATA'} as const)
 
 // thunks
 export const fetchTodolistsTC = () => {
-  return (dispatch: Dispatch<ActionsType>) => {
+  return (dispatch: any) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.getTodolists()
       .then((res) => {
         dispatch(setTodolistsAC(res.data))
         dispatch(setAppStatusAC('succeeded'))
+        return res.data
+      })
+      .then((todolists) => {
+        todolists.forEach((tl) => {
+          dispatch(fetchTasksTC(tl.id))
+        })
       })
       .catch((err: AxiosError) => {
         handleServerNetworkError(dispatch, err.message)
@@ -130,7 +142,7 @@ export const addTodolistTC = (title: string) => {
       })
       .catch((err: AxiosError) => {
         handleServerNetworkError(dispatch, err.message)
-    })
+      })
 
   }
 }
@@ -153,6 +165,7 @@ export const changeTodolistTitleTC = (id: string, title: string) => {
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>;
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>;
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>;
+export type ClearDataActionType = ReturnType<typeof clearTodosDataAC>;
 type ActionsType =
   | RemoveTodolistActionType
   | AddTodolistActionType
@@ -162,6 +175,8 @@ type ActionsType =
   | SetAppStatusActionType
   | SetAppErrorActionType
   | ReturnType<typeof changeTodolistEntityStatusAC>
+  | ClearDataActionType
+
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType
