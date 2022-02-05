@@ -19,7 +19,7 @@ export function ErrorSnackbar() {
       return;
     }
  //   setOpen(false);
-    dispatch(setAppErrorAC(null))
+    dispatch(setAppErrorAC({error: null}))
   };
 
   const error = useSelector<AppRootStateType, ErrorType>(state => state.app.error)
