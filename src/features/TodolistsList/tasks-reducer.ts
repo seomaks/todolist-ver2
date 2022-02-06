@@ -80,7 +80,6 @@ const slice = createSlice({
 export const tasksReducer = slice.reducer
 // actions
 export  const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC, changeTaskEntityStatusAC} = slice.actions
-
 // thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC({status: 'loading'}))

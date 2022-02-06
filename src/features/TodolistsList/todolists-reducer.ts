@@ -21,7 +21,7 @@ const slice = createSlice({
     removeTodolistAC(state, action: PayloadAction<{ id: string }>) {
       const index = state.findIndex(tl => tl.id === action.payload.id)
       if (index > -1) {
-        state.slice(index, 1)
+        state.splice(index, 1)
       }
     },
     addTodolistAC(state, action: PayloadAction<{ todolist: TodolistType }>) {
@@ -50,7 +50,7 @@ const slice = createSlice({
       const index = state.findIndex(tl => tl.id === action.payload.id)
       state[index].entityStatus = action.payload.entityStatus
     },
-    clearTodosDataAC(state, action: PayloadAction<{}>) {
+    clearTodosDataAC(state, action: PayloadAction) {
       return []
     }
   }
@@ -148,11 +148,8 @@ export const changeTodolistTitleTC = (id: string, title: string) => {
 }
 
 // types
-export type AddTodolistActionType = ReturnType<typeof addTodolistAC>;
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>;
-export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>;
 export type ClearDataActionType = ReturnType<typeof clearTodosDataAC>;
-
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType

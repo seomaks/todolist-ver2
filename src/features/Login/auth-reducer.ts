@@ -1,8 +1,6 @@
 import {Dispatch} from 'redux'
 import {
-  SetAppErrorActionType,
   setAppStatusAC,
-  SetAppStatusActionType
 } from '../../app/app-reducer'
 import {authAPI, LoginParamsType} from "../../api/todolists-api";
 import {
@@ -11,7 +9,6 @@ import {
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
 import {
-  ClearDataActionType,
   clearTodosDataAC
 } from "../TodolistsList/todolists-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -32,17 +29,6 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 export const {setIsLoggedInAC} = slice.actions
-/*(state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-  switch (action.type) {
-    case 'login/SET-IS-LOGGED-IN':
-      return {...state, isLoggedIn: action.value}
-    default:
-      return state
-  }
-}*/
-// actions
-/*export const setIsLoggedInAC = (value: boolean) =>
-  ({type: 'login/SET-IS-LOGGED-IN', value} as const)*/
 
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
@@ -69,7 +55,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
       if (res.data.resultCode === 0) {
         dispatch(setIsLoggedInAC({value: false}))
         dispatch(setAppStatusAC({status: 'succeeded'}))
-        dispatch(clearTodosDataAC({}))
+        dispatch(clearTodosDataAC())
       } else {
         handleServerAppError(dispatch, res.data)
       }
@@ -79,12 +65,3 @@ export const logoutTC = () => (dispatch: Dispatch) => {
     })
 }
 
-// types
-/*type ActionsType =
-  ReturnType<typeof setIsLoggedInAC>
-  | SetAppStatusActionType
-  | SetAppErrorActionType
-  | ClearDataActionType*/
-
-/*
-type InitialStateType = typeof initialState*/
