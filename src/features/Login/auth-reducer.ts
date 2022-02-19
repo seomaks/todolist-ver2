@@ -32,7 +32,6 @@ export const {setIsLoggedInAC} = slice.actions
 
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
-  debugger
   dispatch(setAppStatusAC({status: 'loading'}))
   authAPI.login(data)
     .then(res => {

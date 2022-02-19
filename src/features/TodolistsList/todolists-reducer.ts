@@ -2,9 +2,8 @@ import {todolistsAPI, TodolistType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
 import {
   RequestStatusType,
-  setAppErrorAC, SetAppErrorActionType,
+  setAppErrorAC,
   setAppStatusAC,
-  SetAppStatusActionType
 } from "../../app/app-reducer";
 import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";

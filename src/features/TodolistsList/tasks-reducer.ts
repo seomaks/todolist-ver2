@@ -61,18 +61,18 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addTodolistAC, (state, action) => {
-    state[action.payload.todolist.id] = []
+      state[action.payload.todolist.id] = []
     });
     builder.addCase(removeTodolistAC, (state, action) => {
-    delete state[action.payload.id]
+      delete state[action.payload.id]
     });
     builder.addCase(setTodolistsAC, (state, action) => {
-    action.payload.todolists.forEach((tl:any) => {
-      state[tl.id] = []
-    })
+      action.payload.todolists.forEach((tl:any) => {
+        state[tl.id] = []
+      })
     });
     builder.addCase(clearTodosDataAC, (state, action) => {
-    return {}
+      return {}
     });
   }
 })
@@ -167,5 +167,3 @@ export type UpdateDomainTaskModelType = {
 export type TasksStateType = {
   [key: string]: Array<TaskType>
 }
-
-
